@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IT Security tananyag</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #1f2937, #374151);
+      color: white;
+      padding: 45px 20px;
+      text-align: center;
+    }
+    header h1 { margin: 0 0 10px; font-size: 36px; }
+    header p { margin: 0; opacity: 0.9; }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .toc {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    .toc h2 { margin-top: 0; border: none; padding: 0; }
+    .toc a {
+      display: block;
+      padding: 8px 0;
+      color: #2563eb;
+      text-decoration: none;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .content {
+      background: white;
+      border-radius: 14px;
+      padding: 26px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    h2 {
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 2px solid #e5e7eb;
+      color: #111827;
+    }
+    h2:first-child { margin-top: 0; border-top: none; }
+    h3 { color: #374151; margin-top: 24px; }
+    p { margin: 12px 0; }
+    pre {
+      background: #111827;
+      color: #f9fafb;
+      padding: 16px;
+      border-radius: 10px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    code { font-family: Consolas, Monaco, monospace; }
+    .note {
+      background: #eef2ff;
+      border-left: 5px solid #4f46e5;
+      padding: 10px 16px;
+      border-radius: 8px;
+      margin: 14px 0;
+    }
+    .toplink {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      background: #2563eb;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+    @media (max-width: 700px) {
+      header h1 { font-size: 28px; }
+      .container { padding: 14px; }
+      .content { padding: 18px; }
+    }
+  </style>
+</head>
+<body id="top">
+  <header>
+    <h1>IT Security tananyag</h1>
+    <p>Word dokumentumból rendezett HTML weboldal</p>
+  </header>
+  <main class="container">
+    <section class="toc">
+      <h2>Tartalomjegyzék</h2>
+      <a href="#szakasz-1">3. feladat Ki írta alá a fájlt: /root/contract-160147.txt? Anne, Bob, Carol, Dan</a>
+<a href="#szakasz-2">4. feladat: Töltsd le az e3fae9a2 nevű fájlt az alábbi paranccsal: curl -o /e3fa</a>
+<a href="#szakasz-3">5. feladat Állítsd be a /root/160101.txt fájl jogosultságait úgy, hogy a könyvtá</a>
+<a href="#szakasz-4">6. feladat Töröld a /root/160093.txt fájl összes ACL bejegyzését.</a>
+<a href="#szakasz-5">8. Másold ki a /root/160067.dat fájl első 70 byte-ját a következő fájlba: /root/</a>
+<a href="#szakasz-6">9. Generálj egy 1024 bites RSA kulcsot, és mentsd el /root/160060.pem néven PKCS</a>
+<a href="#szakasz-7">10. Hozz létre egy új crypto_LUKS titkosított XFS fájlrendszert a /dev/sdc eszkö</a>
+<a href="#szakasz-8">2. Üres fájl létrehozása</a>
+<a href="#szakasz-9">3. Nem root tulajdonosú könyvtár keresése</a>
+<a href="#szakasz-10">4. Felhasználó létrehozása és jelszó zárolása</a>
+<a href="#szakasz-11">5. Aláírás ellenőrzése</a>
+<a href="#szakasz-12">6. LUKS fájlrendszer tartalmának másolása</a>
+<a href="#szakasz-13">7. AES-128-CBC visszafejtés</a>
+<a href="#szakasz-14">8. DES-EDE visszafejtés</a>
+<a href="#szakasz-15">9. RSA aláírás készítése SHA-256-tal</a>
+<a href="#szakasz-16">10. Fájl csak olvashatóra állítása</a>
+<a href="#szakasz-17">11. ACL jogosultság operator felhasználónak</a>
+<a href="#szakasz-18">12. Tulajdonos beállítása</a>
+<a href="#szakasz-19">13. Adott méretű fájl létrehozása</a>
+<a href="#szakasz-20">14. 1024 bites RSA kulcs PKCS#8 formátumban</a>
+<a href="#szakasz-21">15. Partíció létrehozása, ext2, read-only mount</a>
+<a href="#szakasz-22">1. Jogosultságok és speciális bitek</a>
+<a href="#szakasz-23">1. Csak a tulajdonos olvashassa, sticky bit bekapcsolva</a>
+<a href="#szakasz-24">2. Csak tulajdonos és csoport írhat/futtathat, setuid bekapcsolva</a>
+<a href="#szakasz-25">3. Fájl csak olvasható legyen mindenki számára</a>
+<a href="#szakasz-26">4. Csak olvasható jog beállítása konkrét fájlra</a>
+<a href="#szakasz-27">5. Új fájl/mappa alapértelmezett jogosultsága 0464 legyen</a>
+<a href="#szakasz-28">6. Új fájl/mappa alapértelmezett jogosultsága 0640 legyen</a>
+<a href="#szakasz-29">2. Felhasználók, csoportok, chage</a>
+<a href="#szakasz-30">1. Felhasználói account lejáratának beállítása</a>
+<a href="#szakasz-31">2. Utolsó jelszóváltoztatás dátuma</a>
+<a href="#szakasz-32">3. Minimum és maximum jelszócsere-idő</a>
+<a href="#szakasz-33">4. Account lejáratának növelése / ellenőrzése</a>
+<a href="#szakasz-34">5. Felhasználó létrehozása</a>
+<a href="#szakasz-35">6. Felhasználó létrehozása és jelszó zárolása</a>
+<a href="#szakasz-36">7. Felhasználó hozzáadása csoporthoz</a>
+<a href="#szakasz-37">8. UID módosítása</a>
+<a href="#szakasz-38">9. Home könyvtár módosítása és létrehozása, ha nem létezik</a>
+<a href="#szakasz-39">10. Új csoport létrehozása</a>
+<a href="#szakasz-40">3. Tulajdonos és ACL</a>
+<a href="#szakasz-41">1. Fájl tulajdonosának beállítása</a>
+<a href="#szakasz-42">2. Fájl tulajdonosának operatorra állítása</a>
+<a href="#szakasz-43">3. Tulajdonos és csoport egyszerre</a>
+<a href="#szakasz-44">4. Olvasási ACL jog operatornak, más ne változzon</a>
+<a href="#szakasz-45">5. Olvasási és írási ACL jog felhasználónak</a>
+<a href="#szakasz-46">6. Default ACL mappára: új almappák/fájlok örököljék</a>
+<a href="#szakasz-47">7. Összes ACL bejegyzés törlése</a>
+<a href="#szakasz-48">4. Keresés find paranccsal</a>
+<a href="#szakasz-49">1. Nem root tulajdonosú könyvtár keresése és válaszfájlba írása</a>
+<a href="#szakasz-50">2. Sticky bit-es könyvtár keresése</a>
+<a href="#szakasz-51">3. Sticky bit-es, de nem írható könyvtár keresése</a>
+<a href="#szakasz-52">4. Találatok számlálása</a>
+<a href="#szakasz-53">5. Fájlműveletek</a>
+<a href="#szakasz-54">1. Adott méretű fájl létrehozása dd-vel</a>
+<a href="#szakasz-55">2. Adott méretű fájl létrehozása fallocate-tel</a>
+<a href="#szakasz-56">3. Első 70 byte kimásolása</a>
+<a href="#szakasz-57">4. Üres fájl létrehozása</a>
+<a href="#szakasz-58">6. OpenSSL – szimmetrikus titkosítás/visszafejtés</a>
+<a href="#szakasz-59">1. AES-128-CBC visszafejtés kulccsal és 0 IV-vel</a>
+<a href="#szakasz-60">2. AES-128-CBC visszafejtés másik példával</a>
+    </section>
+    <section class="content">
+      <p>Ha nincs jogosultságod → sudo-t kell használni</p>
+<h3>✅ Alap használat:</h3>
+<pre><code>sudo parancs</code></pre>
+<p>Pl:</p>
+<pre><code>sudo useradd user86315
+sudo chown operator /root/file.txt
+sudo mount /dev/sdc1 /mnt</code></pre>
+<p>1. megoldás: useradd user160184 su user160184 ssh-keygen ssh-copy-id root@localhost exit Megjegyzés (röviden): ssh-keygen → Enter, Enter (nincs jelszó) ssh-copy-id → root jelszót kell megadni egyszer</p>
+<p>root@localhost főlé h írd bele h student</p>
+<p>2. Keresd meg a /root/160171/ könyvtárban azt a könyvtárat, amelyen a sticky bit be van állítva. Írd ki a fájlba a teljes (abszolút) elérési utat: /root/160171.ans</p>
+<pre><code>find /root/160171/ -perm /1000 &gt; /root/160171.ans</code></pre>
+<p>/root/160171/5/4/1</p>
+<pre><code>chage operator -M 100 chage operator -d 2021-04-15</code></pre>
+<h2 id="szakasz-1">3. feladat Ki írta alá a fájlt: /root/contract-160147.txt? Anne, Bob, Carol, Daniel vagy Eve? Az aláírás SHA-256 hash algoritmussal készült, és ebben a fájlban található: /root/contract-160147.sha256.signature</h2>
+<p>Anne publikus kulcsa: /root/Anne-160147.pub.pem</p>
+<p>Bob publikus kulcsa: /root/Bob-160147.pub.pem</p>
+<p>Carol publikus kulcsa: /root/Carol-160147.pub.pem</p>
+<p>Daniel publikus kulcsa: /root/Daniel-160147.pub.pem</p>
+<p>Eve publikus kulcsa: /root/Eve-160147.pub.pem</p>
+<div class="note"><p>Feladat: Írd be a választ (a nevet) ebbe a fájlba: /root/160147.ans</p></div>
+<p>RSA aláírás ellenőrzéshez próbáld végig a publikus kulcsokat:</p>
+<pre><code>openssl dgst -sha256 -verify /root/Anne-160147.pub.pem -signature /root/contract-160147.sha256.signature /root/contract-160147.txt</code></pre>
+<pre><code>openssl dgst -sha256 -verify /root/Bob-160147.pub.pem -signature /root/contract-160147.sha256.signature /root/contract-160147.txt</code></pre>
+<pre><code>openssl dgst -sha256 -verify /root/Carol-160147.pub.pem -signature /root/contract-160147.sha256.signature /root/contract-160147.txtopenssl dgst -sha256 -verify /root/Daniel-160147.pub.pem -signature /root/contract-160147.sha256.signature /root/contract-160147.txt</code></pre>
+<pre><code>openssl dgst -sha256 -verify /root/Eve-160147.pub.pem -signature /root/contract-160147.sha256.signature /root/contract-160147.txt</code></pre>
+<p>Amelyiknél ezt írja: Verified OK annak a nevét kell beírni: echo &quot;NÉV&quot; &gt; /root/160147.ans Például, ha Bob jó: echo &quot;Bob&quot; &gt; /root/160147.ans</p>
+<h2 id="szakasz-2">4. feladat: Töltsd le az e3fae9a2 nevű fájlt az alábbi paranccsal: curl -o /e3fae9a2 https://progcont.hu/docs/IT-S... A fájl egy LUKS formátumú titkosított fájlrendszert tartalmaz. A jelszó: e3fae9a2 Másold ki a fájlrendszer tartalmát a következő könyvtárba: /root</h2>
+<p>Letöltés curl -o /e3fae9a2 https://progcont.hu/docs/IT-S...</p>
+<p>LUKS eszköz megnyitása cryptsetup luksOpen /e3fae9a2 luksdisk jelszó: e3fae9a2</p>
+<p>Csatolási pont létrehozása mkdir /mnt/luks</p>
+<p>Fájlrendszer csatolása mount /dev/mapper/luksdisk /mnt/luks</p>
+<p>Tartalom másolása cp -r /mnt/luks/* /root/</p>
+<p>(Opcionális, de korrekt lezárás) umount /mnt/luks cryptsetup luksClose luksdisk</p>
+<p>Rövid, egyben (vizsgára): cryptsetup luksOpen /e3fae9a2 luksdisk mkdir /mnt/luks mount /dev/mapper/luksdisk /mnt/luks cp -r /mnt/luks/* /root/</p>
+<h2 id="szakasz-3">5. feladat Állítsd be a /root/160101.txt fájl jogosultságait úgy, hogy a könyvtárlistában így jelenjen meg: -r---rws--T</h2>
+<pre><code>chmod 2644 /root/160101.txt chmod g+s /root/160101.txt chmod +t /root/160101.txt chmod o-x /root/160101.txt</code></pre>
+<h2 id="szakasz-4">6. feladat Töröld a /root/160093.txt fájl összes ACL bejegyzését.</h2>
+<pre><code>setfacl -b /root/160093.txt</code></pre>
+<p>7. Állítsd be a /root/160076.txt fájl tulajdonjogát úgy, hogy a tulajdonos operator, a tulajdonosi csoport pedig users legyen. (A fájlon semmi mást ne változtass meg!)</p>
+<pre><code>chown operator:users /root/160076.txt</code></pre>
+<h2 id="szakasz-5">8. Másold ki a /root/160067.dat fájl első 70 byte-ját a következő fájlba: /root/160067.part</h2>
+<pre><code>head -c 70 /root/160067.dat &gt; /root/160067.part</code></pre>
+<h2 id="szakasz-6">9. Generálj egy 1024 bites RSA kulcsot, és mentsd el /root/160060.pem néven PKCS#8 privát kulcsként.</h2>
+<pre><code>openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:1024 -out /root/160060.pem</code></pre>
+<h2 id="szakasz-7">10. Hozz létre egy új crypto_LUKS titkosított XFS fájlrendszert a /dev/sdc eszközön, és csatold fel a /mnt könyvtárba.</h2>
+<pre><code>cryptsetup luksFormat /dev/sdc cryptsetup luksOpen /dev/sdc luksdisk mkfs.xfs /dev/mapper/luksdisk mount /dev/mapper/luksdisk /mnt</code></pre>
+<p>1.DES-EDE-CBC visszafejtés Feladat fordítása: Fejtsd vissza a /root/test-4.enc fájlt, és mentsd az eredményt /root/test-4.txt néven. A titkosítás DES EDE CBC algoritmussal készült. A kulcs és az inicializációs vektor értéke 0.</p>
+<p>Megoldás: openssl des-ede-cbc -d -in /root/test-4.enc -K 0 -iv 0 -out /root/test-4.txt</p>
+<h2 id="szakasz-8">2. Üres fájl létrehozása</h2>
+<div class="note"><p>Feladat fordítása:<br>Hozz létre egy új üres fájlt /root/test-2.txt néven.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>touch /root/test-2.txt</code></pre>
+<h2 id="szakasz-9">3. Nem root tulajdonosú könyvtár keresése</h2>
+<div class="note"><p>Feladat fordítása:<br>Keresd meg a /root/86344/ könyvtárban azt a könyvtárat, amelynek tulajdonosa nem a root felhasználó. Írd a teljes abszolút elérési utat a /root/86344.ans fájlba.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>find /root/86344/ -type d -not -user root &gt; /root/86344.ans</code></pre>
+<h2 id="szakasz-10">4. Felhasználó létrehozása és jelszó zárolása</h2>
+<div class="note"><p>Feladat fordítása:<br>Hozz létre egy új felhasználót user86315 néven, és zárold a felhasználó jelszavát.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>useradd user86315
+passwd -l user86315</code></pre>
+<h2 id="szakasz-11">5. Aláírás ellenőrzése</h2>
+<div class="note"><p>Feladat fordítása:<br>Ki írta alá a /root/contract-86302.txt fájlt: Anne, Bob, Carol, Daniel vagy Eve? Az aláírás SHA-256 hash algoritmussal készült. A nevet írd a /root/86302.ans fájlba.</p></div>
+<p>Megoldás a képen alapján:</p>
+<pre><code>echo &quot;Carol&quot; &gt; /root/86302.ans</code></pre>
+<h2 id="szakasz-12">6. LUKS fájlrendszer tartalmának másolása</h2>
+<div class="note"><p>Feladat fordítása:<br>Töltsd le az 5d3a0e1b fájlt. A fájl LUKS formátumú titkosított fájlrendszert tartalmaz. A jelszó: 5d3a0e1b. Másold a fájlrendszer tartalmát a /root könyvtárba.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>curl -o /5d3a0e1b https://progcont.hu/docs/IT-Security/loop/5d3a0e1b
+cryptsetup luksOpen /5d3a0e1b loop
+mount /dev/mapper/loop /mnt
+cp -r /mnt/* /root/</code></pre>
+<h2 id="szakasz-13">7. AES-128-CBC visszafejtés</h2>
+<div class="note"><p>Feladat fordítása:<br>Fejtsd vissza a /root/86261.enc fájlt a 86261 kulccsal és 0 inicializációs vektorral. AES-128-CBC algoritmussal készült. Az eredményt mentsd /root/86261.txt néven.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>openssl aes-128-cbc -d -in /root/86261.enc -K 86261 -iv 0 -out /root/86261.txt</code></pre>
+<h2 id="szakasz-14">8. DES-EDE visszafejtés</h2>
+<div class="note"><p>Feladat fordítása:<br>Fejtsd vissza a /root/86257.enc fájlt a 86257 jelszóval, DES-EDE algoritmussal. Az eredményt mentsd /root/86257.txt néven.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>openssl des-ede -d -in /root/86257.enc -k 86257 &gt; /root/86257.txt</code></pre>
+<h2 id="szakasz-15">9. RSA aláírás készítése SHA-256-tal</h2>
+<div class="note"><p>Feladat fordítása:<br>Írd alá a /root/86247.txt fájlt a megadott privát kulccsal, SHA-256 hash függvénnyel. Az aláírást mentsd /root/86247.sign néven.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>openssl dgst -sha256 -sign private_key.pem -out /root/86247.sign /root/86247.txt</code></pre>
+<p>A private_key.pem helyére azt a fájlt kell írni, ahová a feladatban látható privát kulcsot elmented.</p>
+<h2 id="szakasz-16">10. Fájl csak olvashatóra állítása</h2>
+<div class="note"><p>Feladat fordítása:<br>Állítsd be a /root/86237.txt fájl jogosultságait csak olvashatóra.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>chmod 444 /root/86237.txt</code></pre>
+<h2 id="szakasz-17">11. ACL jogosultság operator felhasználónak</h2>
+<div class="note"><p>Feladat fordítása:<br>Adj olvasási jogosultságot az operator felhasználónak a /root/86224.txt fájlra egy új USER ACL bejegyzéssel. Semmi mást ne változtass a fájlon.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>setfacl -m u:operator:r /root/86224.txt</code></pre>
+<h2 id="szakasz-18">12. Tulajdonos beállítása</h2>
+<div class="note"><p>Feladat fordítása:<br>Állítsd be a /root/86211.txt fájl tulajdonosát az operator felhasználóra. Semmi mást ne változtass.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>chown operator /root/86211.txt</code></pre>
+<h2 id="szakasz-19">13. Adott méretű fájl létrehozása</h2>
+<div class="note"><p>Feladat fordítása:<br>Hozz létre egy /root/86198.dat nevű fájlt, amelynek mérete 861980 byte.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>dd if=/dev/zero of=/root/86198.dat bs=861980 count=1</code></pre>
+<h2 id="szakasz-20">14. 1024 bites RSA kulcs PKCS#8 formátumban</h2>
+<div class="note"><p>Feladat fordítása:<br>Generálj egy 1024 bites RSA kulcsot, és mentsd /root/86191.pem néven PKCS#8 privát kulcsként.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:1024 -out /root/86191.pem</code></pre>
+<h2 id="szakasz-21">15. Partíció létrehozása, ext2, read-only mount</h2>
+<div class="note"><p>Feladat fordítása:<br>Hozz létre egy új /dev/sdc1 partíciót a /dev/sdc meghajtón. Formázd ext2 fájlrendszerrel, és csatold a /mnt könyvtárba csak olvasható módban.</p></div>
+<h3>Megoldás:</h3>
+<pre><code>fdisk /dev/sdc
+mkfs.ext2 /dev/sdc1
+mount -o ro /dev/sdc1 /mnt</code></pre>
+<h2 id="szakasz-22">1. Jogosultságok és speciális bitek</h2>
+<h2 id="szakasz-23">1. Csak a tulajdonos olvashassa, sticky bit bekapcsolva</h2>
+<pre><code>chmod 1400 /root/34484.txt</code></pre>
+<h2 id="szakasz-24">2. Csak tulajdonos és csoport írhat/futtathat, setuid bekapcsolva</h2>
+<pre><code>chmod 4550 /root/34759.txt</code></pre>
+<h2 id="szakasz-25">3. Fájl csak olvasható legyen mindenki számára</h2>
+<pre><code>chmod 444 /root/13933.txt</code></pre>
+<pre><code># vagy</code></pre>
+<pre><code>chmod -w /root/13933.txt</code></pre>
+<h2 id="szakasz-26">4. Csak olvasható jog beállítása konkrét fájlra</h2>
+<pre><code>chmod 444 /root/86237.txt</code></pre>
+<h2 id="szakasz-27">5. Új fájl/mappa alapértelmezett jogosultsága 0464 legyen</h2>
+<pre><code>umask 313</code></pre>
+<h2 id="szakasz-28">6. Új fájl/mappa alapértelmezett jogosultsága 0640 legyen</h2>
+<pre><code>umask 0137</code></pre>
+<h2 id="szakasz-29">2. Felhasználók, csoportok, chage</h2>
+<h2 id="szakasz-30">1. Felhasználói account lejáratának beállítása</h2>
+<pre><code>chage user-34465 -E 2020-05-18</code></pre>
+<h2 id="szakasz-31">2. Utolsó jelszóváltoztatás dátuma</h2>
+<pre><code>chage -d 2020-01-01 user-34740</code></pre>
+<h2 id="szakasz-32">3. Minimum és maximum jelszócsere-idő</h2>
+<pre><code>useradd user13947</code></pre>
+<pre><code>chage -m 10 -M 30 user13947</code></pre>
+<h2 id="szakasz-33">4. Account lejáratának növelése / ellenőrzése</h2>
+<pre><code>chage -l user18938</code></pre>
+<pre><code>chage -E 2020-06-29 user18938</code></pre>
+<h2 id="szakasz-34">5. Felhasználó létrehozása</h2>
+<pre><code>useradd user-34273</code></pre>
+<h2 id="szakasz-35">6. Felhasználó létrehozása és jelszó zárolása</h2>
+<pre><code>useradd user39821</code></pre>
+<pre><code>passwd -l user39821</code></pre>
+<h2 id="szakasz-36">7. Felhasználó hozzáadása csoporthoz</h2>
+<pre><code>usermod user-34425 -G group-34425</code></pre>
+<h2 id="szakasz-37">8. UID módosítása</h2>
+<pre><code>usermod user-34421 -u 1237</code></pre>
+<h2 id="szakasz-38">9. Home könyvtár módosítása és létrehozása, ha nem létezik</h2>
+<pre><code>usermod -d /home/u34296 -m user-34296</code></pre>
+<h2 id="szakasz-39">10. Új csoport létrehozása</h2>
+<pre><code>groupadd newgroup-34542</code></pre>
+<h2 id="szakasz-40">3. Tulajdonos és ACL</h2>
+<h2 id="szakasz-41">1. Fájl tulajdonosának beállítása</h2>
+<pre><code>chown user-34289 /root/34289.txt</code></pre>
+<h2 id="szakasz-42">2. Fájl tulajdonosának operatorra állítása</h2>
+<pre><code>chown operator /root/13912.txt</code></pre>
+<h2 id="szakasz-43">3. Tulajdonos és csoport egyszerre</h2>
+<pre><code>chown operator:users /root/160076.txt</code></pre>
+<h2 id="szakasz-44">4. Olvasási ACL jog operatornak, más ne változzon</h2>
+<pre><code>setfacl -m u:operator:r /root/13921.txt</code></pre>
+<h2 id="szakasz-45">5. Olvasási és írási ACL jog felhasználónak</h2>
+<pre><code>setfacl -m u:user-34374:rw /root/34374.txt</code></pre>
+<h2 id="szakasz-46">6. Default ACL mappára: új almappák/fájlok örököljék</h2>
+<pre><code>mkdir /root/34341</code></pre>
+<pre><code>setfacl -d -m u:user-34341:rwx /root/34341</code></pre>
+<h2 id="szakasz-47">7. Összes ACL bejegyzés törlése</h2>
+<pre><code>setfacl -b /root/160093.txt</code></pre>
+<h2 id="szakasz-48">4. Keresés find paranccsal</h2>
+<h2 id="szakasz-49">1. Nem root tulajdonosú könyvtár keresése és válaszfájlba írása</h2>
+<pre><code>find /root/39850/ -type d -not -user root &gt; /root/39850.ans</code></pre>
+<h2 id="szakasz-50">2. Sticky bit-es könyvtár keresése</h2>
+<pre><code>find /root/13864/ -type d -perm -1000 &gt; /root/13864.ans</code></pre>
+<h2 id="szakasz-51">3. Sticky bit-es, de nem írható könyvtár keresése</h2>
+<pre><code>find /root/18951/ -type d -perm -1000 -and -not \( -perm /222 \) &gt; /root/18951.ans</code></pre>
+<h2 id="szakasz-52">4. Találatok számlálása</h2>
+<pre><code>find /root/13864/ | wc -l</code></pre>
+<h2 id="szakasz-53">5. Fájlműveletek</h2>
+<h2 id="szakasz-54">1. Adott méretű fájl létrehozása dd-vel</h2>
+<pre><code>dd if=/dev/zero of=/root/13895.dat bs=138950 count=1</code></pre>
+<h2 id="szakasz-55">2. Adott méretű fájl létrehozása fallocate-tel</h2>
+<pre><code>fallocate -l 396650 /root/39665.dat</code></pre>
+<h2 id="szakasz-56">3. Első 70 byte kimásolása</h2>
+<pre><code>head -c 70 /root/160067.dat &gt; /root/160067.part</code></pre>
+<h2 id="szakasz-57">4. Üres fájl létrehozása</h2>
+<pre><code>touch /root/test-2.txt</code></pre>
+<h2 id="szakasz-58">6. OpenSSL – szimmetrikus titkosítás/visszafejtés</h2>
+<h2 id="szakasz-59">1. AES-128-CBC visszafejtés kulccsal és 0 IV-vel</h2>
+<pre><code>openssl aes-128-cbc -d -K 13967 -iv 0 -in /root/13967.enc -out /root/13967.txt</code></pre>
+<h2 id="szakasz-60">2. AES-128-CBC visszafejtés másik példával</h2>
+<pre><code>openssl aes-128-cbc -d -K 39728 -iv 0 -in /root/39728.enc &gt; /root/39728.txt</code></pre>
+<h2 id="szakasz-61">3. DES-EDE visszafejtés jelszóval</h2>
+<pre><code>openssl des-ede -d -k 13954 -in /root/13954.enc -out /root/13954.txt</code></pre>
+<h2 id="szakasz-62">4. DES-CBC titkosítás jelszóval</h2>
+<pre><code>openssl des-cbc -k it34306 -in /root/34306.txt -out /root/34306.enc</code></pre>
+<h2 id="szakasz-63">5. DES-EDE-CBC visszafejtés 0 kulccsal és 0 IV-vel</h2>
+<pre><code>openssl des-ede-cbc -d -in /root/test-4.enc -K 0 -iv 0 -out /root/test-4.txt</code></pre>
+<h2 id="szakasz-64">6. Megjegyzés</h2>
+<p>-K = hexadecimális kulcs</p>
+<p>-k = jelszó</p>
+<p>-d = decode / visszafejtés</p>
+<h2 id="szakasz-65">7. OpenSSL – RSA kulcsok, aláírás, titkosítás</h2>
+<h2 id="szakasz-66">1. 1024 bites RSA kulcs PKCS#8 privát kulcsként</h2>
+<pre><code>openssl genpkey -algorithm RSA -out /root/13884.pem -pkeyopt rsa_keygen_bits:1024</code></pre>
+<h2 id="szakasz-67">2. RSA privát-publikus kulcspár létrehozása</h2>
+<pre><code>openssl genpkey -algorithm RSA -out /root/34668.pem</code></pre>
+<pre><code>openssl rsa -in /root/34668.pem -pubout &gt; /root/34668.pub</code></pre>
+<h2 id="szakasz-68">3. Fájl titkosítása publikus kulccsal</h2>
+<pre><code>openssl rsautl -encrypt -pubin -inkey /root/34668.pub -in /root/34668.txt -out /root/34668.enc</code></pre>
+<h2 id="szakasz-69">4. RSA titkosítás ellenőrzése / visszafejtése privát kulccsal</h2>
+<pre><code>openssl rsautl -decrypt -inkey /root/34668.pem -in /root/34668.enc</code></pre>
+<h2 id="szakasz-70">5. Fájl aláírása SHA-256-tal privát kulccsal</h2>
+<pre><code>openssl dgst -sha256 -sign /root/34328.pem -out /root/34328.sign /root/34328.txt</code></pre>
+<h2 id="szakasz-71">6. Aláírás ellenőrzése publikus kulccsal</h2>
+<pre><code>openssl dgst -sha256 -verify /root/34328.pub -signature /root/34328.sign /root/34328.txt</code></pre>
+<h2 id="szakasz-72">7. Aláíró személy keresése több publikus kulcs között</h2>
+<pre><code>openssl dgst -sha256 -verify /root/Anne-39796.pub.pem -signature /root/contract-39796.sha256.signature /root/contract-39796.txt</code></pre>
+<pre><code>openssl dgst -sha256 -verify /root/Bob-39796.pub.pem -signature /root/contract-39796.sha256.signature /root/contract-39796.txt</code></pre>
+<pre><code># amelyiknél Verified OK, azt a nevet kell beírni:</code></pre>
+<pre><code>echo &quot;NÉV&quot; &gt; /root/39796.ans</code></pre>
+<h2 id="szakasz-73">8. SSH publikus kulcs átalakítása OpenSSL PKCS#8 formára</h2>
+<pre><code>ssh-keygen -f /root/18811.key.pub -e -m pkcs8 &gt; /root/18811.pkcs8</code></pre>
+<pre><code>openssl rsautl -encrypt -pubin -inkey /root/18811.pkcs8 -in /root/18811.txt -out /root/18811.enc</code></pre>
+<h2 id="szakasz-74">9. Jelszóval védett privát kulcsból RSA PUBLIC KEY előállítása</h2>
+<pre><code>openssl rsa -in /root/51386.private.enc.pem -passin pass:660ca4 -RSAPublicKey_out -out /root/51386.public.pem</code></pre>
+<h2 id="szakasz-75">8. SSH belépés kulccsal</h2>
+<h2 id="szakasz-76">1. Root be tudjon lépni egy user nevében jelszó nélkül</h2>
+<pre><code>ssh-keygen</code></pre>
+<pre><code>ssh-copy-id user-34345@localhost</code></pre>
+<h2 id="szakasz-77">2. Ha kézzel kell authorized_keys-be tenni</h2>
+<pre><code>ssh-keygen -y -f privkey &gt; pubkey</code></pre>
+<pre><code>mkdir -p /home/user/.ssh</code></pre>
+<pre><code>cat pubkey &gt;&gt; /home/user/.ssh/authorized_keys</code></pre>
+<pre><code>chmod 700 /home/user/.ssh</code></pre>
+<pre><code>chmod 600 /home/user/.ssh/authorized_keys</code></pre>
+<pre><code>chown -R user:user /home/user/.ssh</code></pre>
+<h2 id="szakasz-78">3. Adott privát kulcs tulajdonosa be tudjon lépni rootként</h2>
+<pre><code>cat &gt; /tmp/key.pem</code></pre>
+<pre><code># ide bemásolod a privát kulcsot</code></pre>
+<pre><code>ssh-keygen -y -f /tmp/key.pem &gt; /tmp/key.pub</code></pre>
+<pre><code>mkdir -p /root/.ssh</code></pre>
+<pre><code>cat /tmp/key.pub &gt;&gt; /root/.ssh/authorized_keys</code></pre>
+<pre><code>chmod 700 /root/.ssh</code></pre>
+<pre><code>chmod 600 /root/.ssh/authorized_keys</code></pre>
+<h2 id="szakasz-79">9. LUKS, loop, partíciók, mount</h2>
+<h2 id="szakasz-80">1. Partíció készítése /dev/sdb-re, majd LUKS formázás</h2>
+<pre><code>fdisk /dev/sdb</code></pre>
+<pre><code># fdisk alatt: n, Enter, Enter, Enter, Enter, w</code></pre>
+<pre><code>cryptsetup luksFormat /dev/sdb1</code></pre>
+<h2 id="szakasz-81">2. Képfájl loop device-ra és LUKS formázás</h2>
+<pre><code>losetup -f /root/34627.img</code></pre>
+<pre><code>cryptsetup luksFormat /dev/loop0</code></pre>
+<h2 id="szakasz-82">3. LUKS fájlrendszer megnyitása és tartalom másolása /root-ba</h2>
+<pre><code>curl -o /319e33e0 https://progcont.hu/docs/IT-Security/loop/319e33e0</code></pre>
+<pre><code>cryptsetup luksOpen /319e33e0 encrypt1</code></pre>
+<pre><code>mkdir -p /mnt/mnt0</code></pre>
+<pre><code>mount /dev/mapper/encrypt1 /mnt/mnt0</code></pre>
+<pre><code>cp -r /mnt/mnt0/* /root/</code></pre>
+<h2 id="szakasz-83">4. Új crypto_LUKS + XFS fájlrendszer /dev/sdc-n és mount /mnt-re</h2>
+<pre><code>cryptsetup luksFormat /dev/sdc</code></pre>
+<pre><code>cryptsetup luksOpen /dev/sdc luksdisk</code></pre>
+<pre><code>mkfs.xfs /dev/mapper/luksdisk</code></pre>
+<pre><code>mount /dev/mapper/luksdisk /mnt</code></pre>
+<h2 id="szakasz-84">5. Partíció /dev/sdc1, ext2, read-only mount</h2>
+<pre><code>fdisk /dev/sdc</code></pre>
+<pre><code># fdisk alatt: n, Enter, Enter, Enter, Enter, w</code></pre>
+<pre><code>mkfs.ext2 /dev/sdc1</code></pre>
+<pre><code>mount -o ro /dev/sdc1 /mnt</code></pre>
+<h2 id="szakasz-85">6. Read-only remount</h2>
+<pre><code>mount -o remount,ro /mnt</code></pre>
+<h2 id="szakasz-86">10. Vizsgán student felhasználóval</h2>
+<h2 id="szakasz-87">1. Ha nincs jogosultság</h2>
+<pre><code>sudo parancs</code></pre>
+<h2 id="szakasz-88">2. Root shell kérése</h2>
+<pre><code>sudo -i</code></pre>
+<pre><code># vagy</code></pre>
+<pre><code>sudo su</code></pre>
+<h2 id="szakasz-89">3. Tipikus sudo-s parancsok</h2>
+<pre><code>sudo useradd user86315</code></pre>
+<pre><code>sudo chown operator /root/file.txt</code></pre>
+<pre><code>sudo mount /dev/sdc1 /mnt</code></pre>
+<pre><code>sudo cryptsetup luksFormat /dev/sdc</code></pre>
+<h2 id="szakasz-90">1. Feladat</h2>
+<p>Állítsa át a /root/197892.txt fájl attribútumait úgy, hogy tulajdonosa az operator felhasználó legyen. (Mást ne változtasson.)</p>
+<h3>Megoldás:</h3>
+<pre><code>chown operator /root/197892.txt</code></pre>
+<h2 id="szakasz-91">2. Feladat</h2>
+<p>Készítsen egy 512 bites RSA privát kulcsot és mentse el PKCS8 formátumban a következő állományba: /root/197893.pem.</p>
+<h3>Megoldás:</h3>
+<pre><code>openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:512 -out /root/197893.pem</code></pre>
+    </section>
+  </main>
+  <a class="toplink" href="#top">↑ Fel</a>
+</body>
+</html>
