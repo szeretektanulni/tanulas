@@ -32,6 +32,12 @@
       border-bottom: 1px solid #d6e4ef;
     }
 
+    nav {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 8px;
+    }
+
     nav a {
       display: inline-block;
       margin: 6px;
@@ -110,7 +116,13 @@
       padding: 28px;
       color: #666;
     }
-  </style>
+  
+nav select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+</style>
 </head>
 <body>
 
@@ -118,8 +130,95 @@
   <h1>IT Security tananyag</h1>
 </header>
 
+
 <nav>
-  <a href="#feladat1"><span>1.</span> Sudo használata, ha nincs jogosultság</a><a href="#feladat2"><span>2.</span> Felhasználó létrehozása és SSH RSA kulcs beállítása</a><a href="#feladat3"><span>3.</span> Sticky bit-es könyvtár keresése</a><a href="#feladat4"><span>4.</span> Operator jelszólejárat beállítása</a><a href="#feladat5"><span>5.</span> RSA aláírás ellenőrzése több publikus kulccsal</a><a href="#feladat6"><span>6.</span> LUKS fájlrendszer letöltése és tartalmának másolása</a><a href="#feladat7"><span>7.</span> Jogosultság beállítása: -r---rws--T</a><a href="#feladat8"><span>8.</span> ACL bejegyzések törlése</a><a href="#feladat9"><span>9.</span> Tulajdonos és csoport beállítása</a><a href="#feladat10"><span>10.</span> Első 70 byte kimásolása</a><a href="#feladat11"><span>11.</span> 1024 bites RSA kulcs PKCS#8 formátumban</a><a href="#feladat12"><span>12.</span> Új crypto_LUKS titkosított XFS fájlrendszer</a><a href="#feladat13"><span>13.</span> DES-EDE-CBC visszafejtés</a><a href="#feladat14"><span>14.</span> Üres fájl létrehozása</a><a href="#feladat15"><span>15.</span> Nem root tulajdonosú könyvtár keresése</a><a href="#feladat16"><span>16.</span> Felhasználó létrehozása és jelszó zárolása</a><a href="#feladat17"><span>17.</span> Aláírás ellenőrzése konkrét válasszal</a><a href="#feladat18"><span>18.</span> LUKS fájlrendszer tartalmának másolása</a><a href="#feladat19"><span>19.</span> AES-128-CBC visszafejtés</a><a href="#feladat20"><span>20.</span> DES-EDE visszafejtés</a><a href="#feladat21"><span>21.</span> RSA aláírás készítése SHA-256-tal</a><a href="#feladat22"><span>22.</span> Fájl csak olvashatóra állítása</a><a href="#feladat23"><span>23.</span> ACL olvasási jogosultság operator felhasználónak</a><a href="#feladat24"><span>24.</span> Tulajdonos beállítása operatorra</a><a href="#feladat25"><span>25.</span> Adott méretű fájl létrehozása</a><a href="#feladat26"><span>26.</span> 1024 bites RSA kulcs /root/86191.pem néven</a><a href="#feladat27"><span>27.</span> Partíció létrehozása, ext2 formázás, read-only mount</a><a href="#feladat28"><span>28.</span> Csak tulajdonos olvashassa, sticky bit bekapcsolva</a><a href="#feladat29"><span>29.</span> Tulajdonos és csoport írhat/futtathat, setuid bekapcsolva</a><a href="#feladat30"><span>30.</span> Fájl csak olvasható mindenki számára</a><a href="#feladat31"><span>31.</span> Új fájl/mappa alapértelmezett jogosultsága 0464</a><a href="#feladat32"><span>32.</span> Új fájl/mappa alapértelmezett jogosultsága 0640</a><a href="#feladat33"><span>33.</span> Felhasználói account lejáratának beállítása</a><a href="#feladat34"><span>34.</span> Utolsó jelszóváltoztatás dátuma</a><a href="#feladat35"><span>35.</span> Minimum és maximum jelszócsere-idő</a><a href="#feladat36"><span>36.</span> Account lejáratának ellenőrzése és beállítása</a><a href="#feladat37"><span>37.</span> Felhasználó létrehozása</a><a href="#feladat38"><span>38.</span> Felhasználó létrehozása és jelszó zárolása</a><a href="#feladat39"><span>39.</span> Felhasználó hozzáadása csoporthoz</a><a href="#feladat40"><span>40.</span> UID módosítása</a><a href="#feladat41"><span>41.</span> Home könyvtár módosítása és mozgatása</a><a href="#feladat42"><span>42.</span> Új csoport létrehozása</a><a href="#feladat43"><span>43.</span> Fájl tulajdonosának beállítása</a><a href="#feladat44"><span>44.</span> Fájl tulajdonosának operatorra állítása</a><a href="#feladat45"><span>45.</span> Tulajdonos és csoport egyszerre</a><a href="#feladat46"><span>46.</span> Olvasási ACL jog operatornak</a><a href="#feladat47"><span>47.</span> Olvasási és írási ACL jog felhasználónak</a><a href="#feladat48"><span>48.</span> Default ACL mappára</a><a href="#feladat49"><span>49.</span> Összes ACL bejegyzés törlése</a><a href="#feladat50"><span>50.</span> Nem root tulajdonosú könyvtár keresése és válaszfájlba írása</a><a href="#feladat51"><span>51.</span> Sticky bit-es könyvtár keresése</a><a href="#feladat52"><span>52.</span> Sticky bit-es, de nem írható könyvtár keresése</a><a href="#feladat53"><span>53.</span> Találatok számlálása find paranccsal</a><a href="#feladat54"><span>54.</span> Adott méretű fájl létrehozása dd-vel</a><a href="#feladat55"><span>55.</span> Adott méretű fájl létrehozása fallocate paranccsal</a><a href="#feladat56"><span>56.</span> Első 70 byte kimásolása</a><a href="#feladat57"><span>57.</span> Üres fájl létrehozása</a><a href="#feladat58"><span>58.</span> AES-128-CBC visszafejtés kulccsal és 0 IV-vel</a><a href="#feladat59"><span>59.</span> AES-128-CBC visszafejtés másik példával</a><a href="#feladat60"><span>60.</span> DES-EDE visszafejtés jelszóval</a><a href="#feladat61"><span>61.</span> DES-CBC titkosítás jelszóval</a><a href="#feladat62"><span>62.</span> DES-EDE-CBC visszafejtés 0 kulccsal és 0 IV-vel</a><a href="#feladat63"><span>63.</span> 1024 bites RSA kulcs PKCS#8 privát kulcsként</a><a href="#feladat64"><span>64.</span> RSA privát-publikus kulcspár létrehozása</a><a href="#feladat65"><span>65.</span> Fájl titkosítása publikus kulccsal</a><a href="#feladat66"><span>66.</span> RSA titkosítás ellenőrzése / visszafejtése</a><a href="#feladat67"><span>67.</span> Fájl aláírása SHA-256-tal privát kulccsal</a><a href="#feladat68"><span>68.</span> Aláírás ellenőrzése publikus kulccsal</a><a href="#feladat69"><span>69.</span> Aláíró személy keresése több publikus kulcs között</a><a href="#feladat70"><span>70.</span> SSH publikus kulcs átalakítása OpenSSL PKCS#8 formára</a><a href="#feladat71"><span>71.</span> Jelszóval védett privát kulcsból RSA PUBLIC KEY előállítása</a><a href="#feladat72"><span>72.</span> Root be tudjon lépni user nevében jelszó nélkül</a><a href="#feladat73"><span>73.</span> authorized_keys kézi beállítása</a><a href="#feladat74"><span>74.</span> Adott privát kulcs tulajdonosa rootként be tudjon lépni</a><a href="#feladat75"><span>75.</span> Partíció készítése /dev/sdb-re, majd LUKS formázás</a><a href="#feladat76"><span>76.</span> Képfájl loop device-ra és LUKS formázás</a><a href="#feladat77"><span>77.</span> LUKS fájlrendszer megnyitása és másolása /root-ba</a><a href="#feladat78"><span>78.</span> Új crypto_LUKS + XFS fájlrendszer /dev/sdc-n</a><a href="#feladat79"><span>79.</span> Partíció /dev/sdc1, ext2, read-only mount</a><a href="#feladat80"><span>80.</span> Read-only remount</a><a href="#feladat81"><span>81.</span> Root shell kérése</a><a href="#feladat82"><span>82.</span> Tipikus sudo-s parancsok vizsgán</a><a href="#feladat83"><span>83.</span> Fájl tulajdonosa operator legyen</a><a href="#feladat84"><span>84.</span> 512 bites RSA privát kulcs PKCS#8 formátumban</a>
+  <select onchange="location = this.value;">
+    <option value="">Ugrás feladatra...</option>
+<option value="#feladat1">1.</span> Sudo használata, ha nincs jogosultság</option>
+<option value="#feladat2">2.</span> Felhasználó létrehozása és SSH RSA kulcs beállítása</option>
+<option value="#feladat3">3.</span> Sticky bit-es könyvtár keresése</option>
+<option value="#feladat4">4.</span> Operator jelszólejárat beállítása</option>
+<option value="#feladat5">5.</span> RSA aláírás ellenőrzése több publikus kulccsal</option>
+<option value="#feladat6">6.</span> LUKS fájlrendszer letöltése és tartalmának másolása</option>
+<option value="#feladat7">7.</span> Jogosultság beállítása: -r---rws--T</option>
+<option value="#feladat8">8.</span> ACL bejegyzések törlése</option>
+<option value="#feladat9">9.</span> Tulajdonos és csoport beállítása</option>
+<option value="#feladat10">10.</span> Első 70 byte kimásolása</option>
+<option value="#feladat11">11.</span> 1024 bites RSA kulcs PKCS#8 formátumban</option>
+<option value="#feladat12">12.</span> Új crypto_LUKS titkosított XFS fájlrendszer</option>
+<option value="#feladat13">13.</span> DES-EDE-CBC visszafejtés</option>
+<option value="#feladat14">14.</span> Üres fájl létrehozása</option>
+<option value="#feladat15">15.</span> Nem root tulajdonosú könyvtár keresése</option>
+<option value="#feladat16">16.</span> Felhasználó létrehozása és jelszó zárolása</option>
+<option value="#feladat17">17.</span> Aláírás ellenőrzése konkrét válasszal</option>
+<option value="#feladat18">18.</span> LUKS fájlrendszer tartalmának másolása</option>
+<option value="#feladat19">19.</span> AES-128-CBC visszafejtés</option>
+<option value="#feladat20">20.</span> DES-EDE visszafejtés</option>
+<option value="#feladat21">21.</span> RSA aláírás készítése SHA-256-tal</option>
+<option value="#feladat22">22.</span> Fájl csak olvashatóra állítása</option>
+<option value="#feladat23">23.</span> ACL olvasási jogosultság operator felhasználónak</option>
+<option value="#feladat24">24.</span> Tulajdonos beállítása operatorra</option>
+<option value="#feladat25">25.</span> Adott méretű fájl létrehozása</option>
+<option value="#feladat26">26.</span> 1024 bites RSA kulcs /root/86191.pem néven</option>
+<option value="#feladat27">27.</span> Partíció létrehozása, ext2 formázás, read-only mount</option>
+<option value="#feladat28">28.</span> Csak tulajdonos olvashassa, sticky bit bekapcsolva</option>
+<option value="#feladat29">29.</span> Tulajdonos és csoport írhat/futtathat, setuid bekapcsolva</option>
+<option value="#feladat30">30.</span> Fájl csak olvasható mindenki számára</option>
+<option value="#feladat31">31.</span> Új fájl/mappa alapértelmezett jogosultsága 0464</option>
+<option value="#feladat32">32.</span> Új fájl/mappa alapértelmezett jogosultsága 0640</option>
+<option value="#feladat33">33.</span> Felhasználói account lejáratának beállítása</option>
+<option value="#feladat34">34.</span> Utolsó jelszóváltoztatás dátuma</option>
+<option value="#feladat35">35.</span> Minimum és maximum jelszócsere-idő</option>
+<option value="#feladat36">36.</span> Account lejáratának ellenőrzése és beállítása</option>
+<option value="#feladat37">37.</span> Felhasználó létrehozása</option>
+<option value="#feladat38">38.</span> Felhasználó létrehozása és jelszó zárolása</option>
+<option value="#feladat39">39.</span> Felhasználó hozzáadása csoporthoz</option>
+<option value="#feladat40">40.</span> UID módosítása</option>
+<option value="#feladat41">41.</span> Home könyvtár módosítása és mozgatása</option>
+<option value="#feladat42">42.</span> Új csoport létrehozása</option>
+<option value="#feladat43">43.</span> Fájl tulajdonosának beállítása</option>
+<option value="#feladat44">44.</span> Fájl tulajdonosának operatorra állítása</option>
+<option value="#feladat45">45.</span> Tulajdonos és csoport egyszerre</option>
+<option value="#feladat46">46.</span> Olvasási ACL jog operatornak</option>
+<option value="#feladat47">47.</span> Olvasási és írási ACL jog felhasználónak</option>
+<option value="#feladat48">48.</span> Default ACL mappára</option>
+<option value="#feladat49">49.</span> Összes ACL bejegyzés törlése</option>
+<option value="#feladat50">50.</span> Nem root tulajdonosú könyvtár keresése és válaszfájlba írása</option>
+<option value="#feladat51">51.</span> Sticky bit-es könyvtár keresése</option>
+<option value="#feladat52">52.</span> Sticky bit-es, de nem írható könyvtár keresése</option>
+<option value="#feladat53">53.</span> Találatok számlálása find paranccsal</option>
+<option value="#feladat54">54.</span> Adott méretű fájl létrehozása dd-vel</option>
+<option value="#feladat55">55.</span> Adott méretű fájl létrehozása fallocate paranccsal</option>
+<option value="#feladat56">56.</span> Első 70 byte kimásolása</option>
+<option value="#feladat57">57.</span> Üres fájl létrehozása</option>
+<option value="#feladat58">58.</span> AES-128-CBC visszafejtés kulccsal és 0 IV-vel</option>
+<option value="#feladat59">59.</span> AES-128-CBC visszafejtés másik példával</option>
+<option value="#feladat60">60.</span> DES-EDE visszafejtés jelszóval</option>
+<option value="#feladat61">61.</span> DES-CBC titkosítás jelszóval</option>
+<option value="#feladat62">62.</span> DES-EDE-CBC visszafejtés 0 kulccsal és 0 IV-vel</option>
+<option value="#feladat63">63.</span> 1024 bites RSA kulcs PKCS#8 privát kulcsként</option>
+<option value="#feladat64">64.</span> RSA privát-publikus kulcspár létrehozása</option>
+<option value="#feladat65">65.</span> Fájl titkosítása publikus kulccsal</option>
+<option value="#feladat66">66.</span> RSA titkosítás ellenőrzése / visszafejtése</option>
+<option value="#feladat67">67.</span> Fájl aláírása SHA-256-tal privát kulccsal</option>
+<option value="#feladat68">68.</span> Aláírás ellenőrzése publikus kulccsal</option>
+<option value="#feladat69">69.</span> Aláíró személy keresése több publikus kulcs között</option>
+<option value="#feladat70">70.</span> SSH publikus kulcs átalakítása OpenSSL PKCS#8 formára</option>
+<option value="#feladat71">71.</span> Jelszóval védett privát kulcsból RSA PUBLIC KEY előállítása</option>
+<option value="#feladat72">72.</span> Root be tudjon lépni user nevében jelszó nélkül</option>
+<option value="#feladat73">73.</span> authorized_keys kézi beállítása</option>
+<option value="#feladat74">74.</span> Adott privát kulcs tulajdonosa rootként be tudjon lépni</option>
+<option value="#feladat75">75.</span> Partíció készítése /dev/sdb-re, majd LUKS formázás</option>
+<option value="#feladat76">76.</span> Képfájl loop device-ra és LUKS formázás</option>
+<option value="#feladat77">77.</span> LUKS fájlrendszer megnyitása és másolása /root-ba</option>
+<option value="#feladat78">78.</span> Új crypto_LUKS + XFS fájlrendszer /dev/sdc-n</option>
+<option value="#feladat79">79.</span> Partíció /dev/sdc1, ext2, read-only mount</option>
+<option value="#feladat80">80.</span> Read-only remount</option>
+<option value="#feladat81">81.</span> Root shell kérése</option>
+<option value="#feladat82">82.</span> Tipikus sudo-s parancsok vizsgán</option>
+<option value="#feladat83">83.</span> Fájl tulajdonosa operator legyen</option>
+<option value="#feladat84">84.</span> 512 bites RSA privát kulcs PKCS#8 formátumban</option>
+</select>
 </nav>
 
 <main>
