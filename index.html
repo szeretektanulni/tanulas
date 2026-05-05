@@ -218,6 +218,19 @@ nav select {
 <option value="#feladat82">82.</span> Tipikus sudo-s parancsok vizsgán</option>
 <option value="#feladat83">83.</span> Fájl tulajdonosa operator legyen</option>
 <option value="#feladat84">84.</span> 512 bites RSA privát kulcs PKCS#8 formátumban</option>
+<option value="#feladat85">85.</span> Jelszó állapot lekérdezése</option>
+<option value="#feladat86">86.</span> Jelszólejárat ellenőrzése</option>
+<option value="#feladat87">87.</span> SHA-512 jelszó generálása</option>
+<option value="#feladat88">88.</span> RSA kulcs generálása (genrsa)</option>
+<option value="#feladat89">89.</span> Privát kulcs megtekintése</option>
+<option value="#feladat90">90.</span> Publikus kulcs készítése</option>
+<option value="#feladat91">91.</span> PKCS#8 konvertálás</option>
+<option value="#feladat92">92.</span> Titkosítás pkeyutl-lel</option>
+<option value="#feladat93">93.</span> Visszafejtés pkeyutl-lel</option>
+<option value="#feladat94">94.</span> Aláírás pkeyutl-lel</option>
+<option value="#feladat95">95.</span> Aláírás ellenőrzése</option>
+<option value="#feladat96">96.</span> SHA-256 aláírás készítése</option>
+<option value="#feladat97">97.</span> SHA-256 aláírás ellenőrzése</option>
 </select>
 </nav>
 
@@ -1131,9 +1144,137 @@ sudo cryptsetup luksFormat /dev/sdc</code></pre>
 
   <p class="label">Megoldás:</p>
   <pre><code>openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:512 -out /root/197893.pem</code></pre>
-
-  
 </section>
+<section id="feladat85">
+  <h2>85. feladat – Jelszó állapot lekérdezése</h2>
+  <p>Nézd meg a bob felhasználó jelszóállapotát.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>passwd -S bob</code></pre>
+
+  <p class="note">Megmutatja, hogy a jelszó zárolt-e, mikor lett utoljára módosítva.</p>
+</section>
+
+<section id="feladat86">
+  <h2>86. feladat – Jelszólejárat ellenőrzése</h2>
+  <p>Listázd a bob felhasználó jelszó- és account beállításait.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>chage -l bob</code></pre>
+
+  <p class="note">Kilistázza a jelszó lejárati, minimum és maximum idejét.</p>
+</section>
+
+<section id="feladat87">
+  <h2>87. feladat – SHA-512 jelszó generálása</h2>
+  <p>Generálj SHA-512 hash-elt jelszót a "student" szóból.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>openssl passwd -6 student</code></pre>
+
+  <p class="note">A -6 a SHA-512 algoritmust jelenti (Linux shadow jelszó formátum).</p>
+</section>
+
+<section id="feladat88">
+  <h2>88. feladat – RSA kulcs generálása (genrsa)</h2>
+  <p>Hozz létre egy 512 bites RSA privát kulcsot bob.priv néven.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>openssl genrsa -out bob.priv 512</code></pre>
+
+  <p class="note">Ez a régebbi módszer RSA kulcs generálására.</p>
+</section>
+
+<section id="feladat89">
+  <h2>89. feladat – Privát kulcs megtekintése</h2>
+  <p>Nézd meg a privát kulcs részletes tartalmát.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>openssl rsa -in bob.priv -noout -text</code></pre>
+
+  <p class="note">Kiírja a kulcs paramétereit (modulus, exponent stb.).</p>
+</section>
+
+<section id="feladat90">
+  <h2>90. feladat – Publikus kulcs készítése</h2>
+  <p>Készíts publikus kulcsot a privát kulcsból.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>openssl rsa -in bob.priv -pubout -out bob.pub</code></pre>
+
+  <p class="note">A publikus kulcs szükséges titkosításhoz és ellenőrzéshez.</p>
+</section>
+
+<section id="feladat91">
+  <h2>91. feladat – PKCS#8 konvertálás</h2>
+  <p>Alakítsd át a privát kulcsot PKCS#8 formátumra titkosítás nélkül.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>openssl pkcs8 -topk8 -in bob.priv -out bob.priv.enc -nocrypt</code></pre>
+
+  <p class="note">A PKCS#8 egy szabványos kulcsformátum.</p>
+</section>
+
+<section id="feladat92">
+  <h2>92. feladat – Titkosítás pkeyutl-lel</h2>
+  <p>Titkosítsd a szoveg fájlt a bob.pub publikus kulccsal.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>openssl pkeyutl -encrypt -in szoveg -out szoveg.enc -inkey bob.pub -pubin</code></pre>
+
+  <p class="note">Publikus kulccsal titkosítunk.</p>
+</section>
+
+<section id="feladat93">
+  <h2>93. feladat – Visszafejtés</h2>
+  <p>Fejtsd vissza a titkosított fájlt a bob.priv kulccsal.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>openssl pkeyutl -decrypt -in szoveg.enc -inkey bob.priv</code></pre>
+
+  <p class="note">Privát kulccsal történik a visszafejtés.</p>
+</section>
+
+<section id="feladat94">
+  <h2>94. feladat – Aláírás</h2>
+  <p>Írd alá a szoveg fájlt a bob.priv privát kulccsal.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>openssl pkeyutl -sign -in szoveg -out szoveg.sig -inkey bob.priv</code></pre>
+
+  <p class="note">Privát kulccsal készül a digitális aláírás.</p>
+</section>
+
+<section id="feladat95">
+  <h2>95. feladat – Aláírás ellenőrzése</h2>
+  <p>Ellenőrizd a szoveg.sig aláírást a bob.pub kulccsal.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>openssl pkeyutl -verifyrecover -in szoveg.sig -inkey bob.pub -pubin</code></pre>
+
+  <p class="note">Publikus kulccsal ellenőrizzük az aláírást.</p>
+</section>
+
+<section id="feladat96">
+  <h2>96. feladat – SHA-256 aláírás</h2>
+  <p>Írd alá a szoveg fájlt SHA-256 hash használatával az alice.priv kulccsal.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>openssl dgst -sha256 -sign alice.priv -out szoveg.sign szoveg</code></pre>
+
+  <p class="note">Hash + aláírás kombinációja (gyakoribb módszer).</p>
+</section>
+
+<section id="feladat97">
+  <h2>97. feladat – SHA-256 ellenőrzés</h2>
+  <p>Ellenőrizd a szoveg.sign aláírást az alice.pub kulccsal.</p>
+
+  <p class="label">Megoldás:</p>
+  <pre><code>openssl dgst -verify alice.pub -signature szoveg.sign -sha256 szoveg</code></pre>
+
+  <p class="note">"Verified OK" → helyes aláírás.</p>
+</section>  
+
 
 
 </main>
