@@ -29,12 +29,13 @@
       background: #eaf2f8;
       padding: 18px;
       text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
       border-bottom: 1px solid #d6e4ef;
-      max-height: 260px;
-      overflow-y: auto;
+    }
+
+    nav {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 8px;
     }
 
     nav a {
@@ -70,12 +71,14 @@
     }
 
     section {
+      line-height: 1.7;
+
       background: white;
       padding: 22px;
       margin-bottom: 22px;
       border-radius: 12px;
       box-shadow: 0 3px 14px rgba(0,0,0,0.08);
-      scroll-margin-top: 310px;
+      scroll-margin-top: 20px;
     }
 
     h2 {
@@ -177,7 +180,7 @@ chage operator -d 2021-04-15</code></pre>
 
 <section id="feladat5">
   <h2>5. feladat – RSA aláírás ellenőrzése több publikus kulccsal</h2>
-  <p>Ki írta alá a /root/contract-160147.txt fájlt: Anne, Bob, Carol, Daniel vagy Eve? Az aláírás SHA-256 hash algoritmussal készült, és a /root/contract-160147.sha256.signature fájlban található. A választ a /root/160147.ans fájlba kell írni.</p>
+  <ul><li>Ki írta alá a /root/contract-160147.txt fájlt: Anne, Bob, Carol, Daniel vagy Eve?</li><li>Az aláírás SHA-256 hash algoritmussal készült, és ebben a fájlban található: /root/contract-160147.sha256.signature.</li><li>Anne publikus kulcsa: /root/Anne-160147.pub.pem.</li><li>Bob publikus kulcsa: /root/Bob-160147.pub.pem.</li><li>Carol publikus kulcsa: /root/Carol-160147.pub.pem.</li><li>Daniel publikus kulcsa: /root/Daniel-160147.pub.pem.</li><li>Eve publikus kulcsa: /root/Eve-160147.pub.pem.</li><li>Feladat: írd be a választ, vagyis a helyes nevet, ebbe a fájlba: /root/160147.ans.</li></ul>
 
   <p class="label">Megoldás:</p>
   <pre><code>openssl dgst -sha256 -verify /root/Anne-160147.pub.pem -signature /root/contract-160147.sha256.signature /root/contract-160147.txt
@@ -192,7 +195,7 @@ echo &quot;NÉV&quot; &gt; /root/160147.ans</code></pre>
 
 <section id="feladat6">
   <h2>6. feladat – LUKS fájlrendszer letöltése és tartalmának másolása</h2>
-  <p>Töltsd le az e3fae9a2 nevű fájlt. A fájl egy LUKS formátumú titkosított fájlrendszert tartalmaz. A jelszó: e3fae9a2. Másold ki a fájlrendszer tartalmát a /root könyvtárba.</p>
+  <ul><li>Töltsd le az e3fae9a2 nevű fájlt az alábbi paranccsal: curl -o /e3fae9a2 https://progcont.hu/docs/IT-Security/loop/e3fae9a2.</li><li>A fájl egy LUKS formátumú titkosított fájlrendszert tartalmaz.</li><li>A jelszó: e3fae9a2.</li><li>Másold ki a fájlrendszer tartalmát a következő könyvtárba: /root.</li></ul>
 
   <p class="label">Megoldás:</p>
   <pre><code>curl -o /e3fae9a2 https://progcont.hu/docs/IT-Security/loop/e3fae9a2
@@ -274,7 +277,7 @@ mount /dev/mapper/luksdisk /mnt</code></pre>
 
 <section id="feladat13">
   <h2>13. feladat – DES-EDE-CBC visszafejtés</h2>
-  <p>Fejtsd vissza a /root/test-4.enc fájlt, és mentsd az eredményt /root/test-4.txt néven. A titkosítás DES-EDE-CBC algoritmussal készült. A kulcs és az inicializációs vektor értéke 0.</p>
+  <ul><li>Fejtsd vissza a /root/test-4.enc fájlt, és mentsd az eredményt /root/test-4.txt néven.</li><li>A titkosítás DES-EDE-CBC algoritmussal készült.</li><li>A kulcs és az inicializációs vektor értéke 0.</li></ul>
 
   <p class="label">Megoldás:</p>
   <pre><code>openssl des-ede-cbc -d -in /root/test-4.enc -K 0 -iv 0 -out /root/test-4.txt</code></pre>
@@ -315,17 +318,17 @@ passwd -l user86315</code></pre>
 
 <section id="feladat17">
   <h2>17. feladat – Aláírás ellenőrzése konkrét válasszal</h2>
-  <p>Ki írta alá a /root/contract-86302.txt fájlt: Anne, Bob, Carol, Daniel vagy Eve? Az aláírás SHA-256 hash algoritmussal készült. A nevet írd a /root/86302.ans fájlba.</p>
+  <ul><li>Ki írta alá a /root/contract-86302.txt fájlt: Anne, Bob, Carol, Daniel vagy Eve?</li><li>Az aláírás SHA-256 hash algoritmussal készült.</li><li>A nevet írd a /root/86302.ans fájlba.</li></ul>
 
   <p class="label">Megoldás:</p>
   <pre><code>echo &quot;Carol&quot; &gt; /root/86302.ans</code></pre>
 
-  <p class="note">Ez már megoldott példaként szerepelt: Carol.</p>
+  <p class="note"></p>
 </section>
 
 <section id="feladat18">
   <h2>18. feladat – LUKS fájlrendszer tartalmának másolása</h2>
-  <p>Töltsd le az 5d3a0e1b fájlt. A fájl LUKS formátumú titkosított fájlrendszert tartalmaz. A jelszó: 5d3a0e1b. Másold a fájlrendszer tartalmát a /root könyvtárba.</p>
+  <ul><li>Töltsd le az 5d3a0e1b fájlt.</li><li>A fájl LUKS formátumú titkosított fájlrendszert tartalmaz.</li><li>A jelszó: 5d3a0e1b.</li><li>Másold a fájlrendszer tartalmát a /root könyvtárba.</li></ul>
 
   <p class="label">Megoldás:</p>
   <pre><code>curl -o /5d3a0e1b https://progcont.hu/docs/IT-Security/loop/5d3a0e1b
@@ -338,7 +341,7 @@ cp -r /mnt/* /root/</code></pre>
 
 <section id="feladat19">
   <h2>19. feladat – AES-128-CBC visszafejtés</h2>
-  <p>Fejtsd vissza a /root/86261.enc fájlt a 86261 kulccsal és 0 inicializációs vektorral. AES-128-CBC algoritmussal készült. Az eredményt mentsd /root/86261.txt néven.</p>
+  <ul><li>Fejtsd vissza a /root/86261.enc fájlt a 86261 kulccsal és 0 inicializációs vektorral.</li><li>AES-128-CBC algoritmussal készült.</li><li>Az eredményt mentsd /root/86261.txt néven.</li></ul>
 
   <p class="label">Megoldás:</p>
   <pre><code>openssl aes-128-cbc -d -in /root/86261.enc -K 86261 -iv 0 -out /root/86261.txt</code></pre>
@@ -1038,6 +1041,7 @@ sudo cryptsetup luksFormat /dev/sdc</code></pre>
 
   
 </section>
+
 
 </main>
 
