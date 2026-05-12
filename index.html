@@ -235,6 +235,291 @@ nav select {
 </nav>
 
 <main>
+<section>
+  <h2>I. Feladat – Nem root tulajdonú fájlok törlése</h2>
+  <p>
+    Távolítsa el azon állományokat a <code>/root/d200098</code> katalógusból melyek nem a <code>root</code> felhasználó tulajdonában vannak. (Egyebet ne változtasson.)
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    A <code>find</code> paranccsal megkeressük azokat a fájlokat, amelyek tulajdonosa nem root, majd a <code>-delete</code> kapcsolóval töröljük őket.
+  </p>
+
+  <pre><code>find /root/d200098 ! -user root -type f -delete</code></pre>
+</section>
+
+<section>
+  <h2>II. Feladat – LUKS titkosított fájlrendszer megnyitása</h2>
+  <p>
+    A <code>/root/200100</code> fájl egy LUKS formátumú titkosított fájlrendszert tartalmaz. A jelszó: <code>cbqtp</code>. Másolja a fájlrendszer tartalmát a következő katalógusba: <code>/root</code>
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    A LUKS olyan, mint egy titkosított lemez. Először meg kell nyitni, utána fel kell csatolni egy mappába, majd onnan lehet kimásolni a fájlokat.
+  </p>
+
+  <pre><code>echo -n 'cbqtp' | cryptsetup luksOpen /root/200100 luks200100 -
+mkdir -p /mnt/luks200100
+mount /dev/mapper/luks200100 /mnt/luks200100
+cp -a /mnt/luks200100/. /root/
+umount /mnt/luks200100
+cryptsetup luksClose luks200100</code></pre>
+
+  <p class="note">
+    Ha kézzel kéred be a jelszót, akkor ezt is írhatod: <code>cryptsetup luksOpen /root/200100 luks200100</code>, majd Enter után beírod: <code>cbqtp</code>. A jelszó gépelés közben nem látszik, ez normális.
+  </p>
+</section>
+
+<section>
+  <h2>III. Feladat – 2048 bites RSA privát kulcs készítése</h2>
+  <p>
+    Készítsen egy 2048 bites RSA privát kulcsot és mentse el PKCS8 formátumban a következő állományba: <code>/root/200101.pem</code>.
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    Az <code>openssl genpkey</code> modern RSA kulcsgeneráló parancs, amely alapértelmezetten PKCS8 formátumú privát kulcsot készít.
+  </p>
+
+  <pre><code>openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out /root/200101.pem</code></pre>
+</section>
+
+<section>
+  <h2>IV. Feladat – Tulajdonos módosítása</h2>
+  <p>
+    Állítsa át a <code>/root/200102.txt</code> fájl attribútumait úgy, hogy tulajdonosa az <code>operator</code> felhasználó legyen. (Mást ne változtasson.)
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    A <code>chown</code> paranccsal lehet fájl tulajdonost módosítani. Itt csak a tulajdonost állítjuk át, mást nem.
+  </p>
+
+  <pre><code>chown operator /root/200102.txt</code></pre>
+</section>
+
+<section>
+  <h2>V. Feladat – Adott méretű fájl létrehozása</h2>
+  <p>
+    Készítsen egy 200103 bájt méretű állományt <code>/root/200103.dat</code> néven.
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    A <code>truncate</code> paranccsal gyorsan létrehozható adott méretű fájl. A <code>-s</code> után adjuk meg a pontos méretet bájtban.
+  </p>
+
+  <pre><code>truncate -s 200103 /root/200103.dat</code></pre>
+</section>
+
+<section>
+  <h2>VI. Feladat – CSR aláírása tanúsítvánnyal</h2>
+  <p>
+    Állítson ki tanúsítványt a <code>/root/200105.csr</code> állományban található tanúsítványaláírási kérés alapján a <code>/root/200104.crt</code> tanúsítványban szereplő szervezet nevében használva annak <code>/root/200104.key</code> állományban tárolt privát kulcsát. A kiállított tanúsítványt a következő állományban tárolja: <code>/root/200105.crt</code>.
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    Az <code>openssl x509 -req</code> paranccsal írható alá egy tanúsítványkérelem. A CSR a kérés, a CRT a kiállító tanúsítványa, a KEY pedig a hozzá tartozó privát kulcs.
+  </p>
+
+  <pre><code>openssl x509 -req \
+-in /root/200105.csr \
+-CA /root/200104.crt \
+-CAkey /root/200104.key \
+-CAcreateserial \
+-out /root/200105.crt \
+-days 365</code></pre>
+</section>
+
+<section>
+  <h2>VII. Feladat – Fájl csak olvasható legyen</h2>
+  <p>
+    Állítsa a <code>/root/200106.txt</code> állomány jogosultságait úgy, hogy az csak olvasható legyen (bárki is férjen hozzá).
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    A <code>chmod 444</code> olvasási jogot ad a tulajdonosnak, a csoportnak és másoknak is, de írási és futtatási jogot nem ad.
+  </p>
+
+  <pre><code>chmod 444 /root/200106.txt</code></pre>
+</section>
+
+<section>
+  <h2>VIII. Feladat – Önaláírt tanúsítvány készítése</h2>
+  <p>
+    Készítsen önaláírt tanúsítványt a <code>self.my-business.eu</code> (CN) részére és mentse a következő állományba: <code>/root/self.my-business.eu.crt</code>.
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    Az <code>openssl req -x509</code> önaláírt tanúsítványt készít. A <code>-subj</code> részben adjuk meg a CN értéket.
+  </p>
+
+  <pre><code>openssl req -x509 -newkey rsa:2048 -nodes \
+-keyout /root/self.my-business.eu.key \
+-out /root/self.my-business.eu.crt \
+-days 365 \
+-subj "/CN=self.my-business.eu"</code></pre>
+</section>
+
+<section>
+  <h2>IX. Feladat – Jogosultságok és ACL-ek eltávolítása</h2>
+  <p>
+    Biztosítsa, hogy a <code>/root/200107.key</code> állományhoz egyetlen felhasználónak se legyen hozzáférése. Távolítson el minden jogosultsággal kapcsolatos bejegyzést a fájlról.
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    Először töröljük az ACL bejegyzéseket, majd minden hagyományos jogosultságot nullára állítunk. Így senki nem kap olvasási, írási vagy futtatási jogot.
+  </p>
+
+  <pre><code>setfacl -b /root/200107.key
+chmod 000 /root/200107.key</code></pre>
+</section>
+
+<section>
+  <h2>X. Feladat – Felhasználói fiók lejárati dátuma</h2>
+  <p>
+    Állítsa át a <code>user200108</code> felhasználói fiók beállításait úgy, hogy az 2025-01-01 dátummal járjon le.
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    A <code>chage -E</code> kapcsolóval állítható be az account lejárati dátuma. A dátum formátuma: év-hónap-nap.
+  </p>
+
+  <pre><code>chage -E 2025-01-01 user200108</code></pre>
+
+  <p class="note">
+    A képen a dátum végét az egérmutató részben takarja. Ha az oldalon nálad más nap látszik, akkor a parancsban az utolsó részt arra a napra kell cserélni.
+  </p>
+</section>
+
+<section>
+  <h2>XI. Feladat – Partíció létrehozása és csatolása</h2>
+  <p>
+    Készítsen egy új <code>/dev/sdc1</code> partíciót a <code>/dev/sdc</code> lemezen. Formázza a partíciót <code>ext2</code> fájlrendszerrel és csatolja csak olvashatóként a <code>/mnt</code> katalógusra.
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    Itt először partíciót készítünk a <code>/dev/sdc</code> lemezen, utána ext2 fájlrendszert hozunk létre rajta, végül csak olvashatóként csatoljuk a <code>/mnt</code> könyvtárba.
+  </p>
+
+  <pre><code>echo ',,L,*' | sfdisk /dev/sdc
+partprobe /dev/sdc
+mkfs.ext2 -F /dev/sdc1
+mount -o ro /dev/sdc1 /mnt</code></pre>
+
+  <p class="note">
+    Ha interaktívan csinálod <code>fdisk</code>-kel: írd be, hogy <code>fdisk /dev/sdc</code>, majd nyomd: <strong>n</strong>, Enter, Enter, Enter, Enter, végül <strong>w</strong>, Enter. Az <strong>n</strong> új partíciót készít, a <strong>w</strong> menti a változtatást.
+  </p>
+</section>
+
+<section>
+  <h2>XII. Feladat – ACL olvasási jog hozzáadása</h2>
+  <p>
+    Adjon olvasási jogot az <code>operator</code> felhasználónak a <code>/root/200109.txt</code> fájlhoz ACL bejegyzés segítségével. (Mást az állományon és attribútumain ne változtasson.)
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    Az ACL lehetővé teszi, hogy egy konkrét felhasználónak külön jogot adjunk anélkül, hogy a fájl többi jogosultságát átállítanánk.
+  </p>
+
+  <pre><code>setfacl -m u:operator:r /root/200109.txt</code></pre>
+</section>
+
+<section>
+  <h2>XIII. Feladat – AES-128-CBC visszafejtés</h2>
+  <p>
+    Fejtse vissza a <code>/root/200111.enc</code> állomány tartalmát a <code>22222222222222223333333333333333</code> kulcs és a <code>a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0</code> inicializáló vektor használatával. A fájlt <code>aes-128-cbc</code> algoritmussal titkosították. Az eredményt a következő állományban tárolja: <code>/root/200111.txt</code>.
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    A visszafejtéshez három fontos adat kell: a titkosított fájl, a hexadecimális kulcs és az inicializáló vektor, vagyis IV. A <code>-K</code> után a kulcsot, az <code>-iv</code> után az IV-t adjuk meg.
+  </p>
+
+  <pre><code>openssl enc -d -aes-128-cbc \
+-in /root/200111.enc \
+-out /root/200111.txt \
+-K 22222222222222223333333333333333 \
+-iv a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0</code></pre>
+
+  <p class="note">
+    A <code>\</code> jel azt jelenti, hogy a parancs a következő sorban folytatódik. Ha egy sorba írod be az egészet, akkor a <code>\</code> jeleket kihagyhatod.
+  </p>
+</section>
+
+<section>
+  <h2>XIV. Feladat – Felhasználó létrehozása és zárolása</h2>
+  <p>
+    Készítsen egy új <code>user200112</code> nevű felhasználót és zárolja a jelszavát!
+  </p>
+
+  <p><strong>Magyarázat:</strong></p>
+  <p>
+    A <code>useradd</code> létrehozza a felhasználót, a <code>passwd -l</code> pedig zárolja a jelszavát, így jelszóval nem tud belépni.
+  </p>
+
+  <pre><code>useradd user200112
+passwd -l user200112</code></pre>
+</section>
+
+<section>
+  <h2>XV. Feladat – SHA-256 digitális aláírás készítése</h2>
+  <p>
+    Írja alá a <code>/root/200113.txt</code> állományt az alábbi privát kulcs segítségével. Használjon SHA 256 hash függvényt. Az aláírás a következő állományba kerüljön: <code>/root/200113.sign</code>
+  </p>
+
+  <p><strong>Részletes magyarázat:</strong></p>
+  <p>
+    Ennél a feladatnál a képen/weboldalon látható privát kulcsot először külön fájlba kell menteni. A privát kulcs a <code>-----BEGIN PRIVATE KEY-----</code> sorral kezdődik és a <code>-----END PRIVATE KEY-----</code> sorral végződik. Ezeket a sorokat is pontosan bele kell másolni, különben az OpenSSL nem fogja felismerni.
+  </p>
+
+  <p><strong>Billentyűzetes lépések:</strong></p>
+  <pre><code>cat &gt; /root/private200113.key</code></pre>
+
+  <p>
+    A parancs beírása után nyomj <strong>Enter</strong>-t. Ezután a terminál várni fog, hogy begépeld vagy bemásold a kulcsot. Másold be a teljes privát kulcsot, például így:
+  </p>
+
+  <pre><code>-----BEGIN PRIVATE KEY-----
+IDE_JÖN_A_FELADATBAN_LÁTHATÓ_TELJES_KULCS
+-----END PRIVATE KEY-----</code></pre>
+
+  <p>
+    Ha bemásoltad a kulcs végét is, nyomj egy új sort <strong>Enter</strong>-rel, majd nyomd meg a <strong>Ctrl + D</strong> billentyűkombinációt. A <strong>Ctrl + D</strong> lezárja a fájlba írást.
+  </p>
+
+  <p><strong>Ezután állítsd be, hogy a kulcsot csak a tulajdonos olvashassa:</strong></p>
+  <pre><code>chmod 600 /root/private200113.key</code></pre>
+
+  <p>
+    Végül készítsd el az aláírást az <code>openssl dgst</code> paranccsal. A <code>-sha256</code> jelzi a hash algoritmust, a <code>-sign</code> után adjuk meg a privát kulcs fájlt, az <code>-out</code> után pedig az aláírás kimeneti fájlját.
+  </p>
+
+  <pre><code>openssl dgst -sha256 \
+-sign /root/private200113.key \
+-out /root/200113.sign \
+/root/200113.txt</code></pre>
+
+  <p><strong>Ellenőrzéshez:</strong></p>
+  <pre><code>ls -l /root/200113.sign</code></pre>
+
+  <p class="note">
+    Fontos: a privát kulcs bemásolásánál ne maradjon ki egyetlen karakter sem, és ne írj plusz szóközt a BEGIN/END sorokba. Ha a <code>cat &gt; fájl</code> parancsból ki akarsz lépni, akkor <strong>Ctrl + D</strong>-t kell nyomni, nem Ctrl + C-t, mert a Ctrl + C megszakíthatja a mentést.
+  </p>
+</section>
+```
+
+
+
   
 <section id="feladat1">
   <h2>1. feladat – Sudo használata, ha nincs jogosultság</h2>
